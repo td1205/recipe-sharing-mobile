@@ -46,3 +46,17 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Local environment and sensitive configuration
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+/android/key.properties
+/android/local.properties
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/flutter_export_environment.sh
