@@ -1,75 +1,47 @@
 # Recipe Sharing Mobile
 
-Ứng dụng chia sẻ và khám phá công thức nấu ăn trên Android, phát triển bằng **Flutter (Dart)** cho đồ án môn **Lập trình cho thiết bị di động**.
+Ứng dụng Flutter (Dart) chia sẻ và khám phá công thức nấu ăn, ưu tiên Android.
+Hiện mới có ứng dụng mẫu; chưa triển khai chức năng nghiệp vụ hoặc kết nối API.
 
-> **Trạng thái:** Đã khởi tạo dự án Flutter; các chức năng nghiệp vụ và kết nối API **chưa triển khai**.
+## Công nghệ và phạm vi
 
-## Mục tiêu
+- Flutter, Dart SDK `^3.13.0` (xem [pubspec.yaml](pubspec.yaml)).
+- Dự kiến dùng chung Backend Node.js/Express, MySQL và tài khoản với [Recipe Sharing Web](https://github.com/td1205/recipe-sharing-web).
+- Flutter gọi REST API JSON; chỉ Backend truy cập MySQL. Hai repository có lịch sử Git độc lập.
+- Kế hoạch: danh sách/tìm kiếm → chi tiết → tài khoản → yêu thích/đánh giá/bình luận → đăng công thức → gợi ý.
 
-- Xem và tìm kiếm công thức nấu ăn.
-- Xem nguyên liệu và các bước chế biến.
-- Hỗ trợ tài khoản và đăng công thức khi tích hợp Backend.
-- Mở rộng về yêu thích, đánh giá và gợi ý công thức sau khi hoàn thiện các chức năng cốt lõi.
+## Chạy và kiểm tra
 
-Các mục tiêu trên là **kế hoạch**, không phải danh sách tính năng đã hoàn thành.
-
-## Công nghệ và kiến trúc
-
-- **Mobile:** Flutter, Dart; ưu tiên Android.
-- **Backend dự kiến dùng chung:** Node.js / Express của dự án Recipe Sharing Web.
-- **Cơ sở dữ liệu:** MySQL do Backend quản lý; ứng dụng Flutter không truy cập MySQL trực tiếp.
-- **Trao đổi dữ liệu:** REST API trả về JSON, cần kiểm tra và xây dựng các endpoint phù hợp.
-
-```text
-recipe-sharing-mobile (Flutter) --HTTP/JSON--> recipe-sharing-web (Express) --> MySQL
-```
-
-Repository Mobile và Web có lịch sử Git độc lập. Mã Backend không thuộc repository này.
-
-## Yêu cầu môi trường
-
-- Flutter SDK và Dart tương thích với `pubspec.yaml`.
-- Android Studio với Android SDK, Android Emulator (hoặc điện thoại Android).
-- VS Code với extension Flutter và Dart hoặc Android Studio.
-
-Kiểm tra công cụ:
-
-```powershell
-flutter doctor
-flutter doctor --android-licenses
-```
-
-## Chạy dự án
+Cài Flutter SDK tương thích, Android Studio/Android SDK và tạo Android Emulator
+(hoặc kết nối điện thoại bật USB debugging).
 
 ```powershell
 git clone https://github.com/td1205/recipe-sharing-mobile.git
 cd recipe-sharing-mobile
+flutter doctor
+flutter doctor --android-licenses
 flutter pub get
-flutter run
+flutter devices
+flutter run -d <device-id>
 ```
-
-Để kiểm tra chất lượng:
 
 ```powershell
 flutter analyze
 flutter test
 ```
 
-> Khi Backend được tích hợp trong các giai đoạn sau: Android Emulator thường truy cập Backend chạy trên máy chủ phát triển qua `http://10.0.2.2:3000` nếu máy chủ lắng nghe phù hợp; điện thoại thật dùng địa chỉ IP mạng LAN hoặc địa chỉ máy chủ triển khai. Hiện tại chưa cấu hình API này trong ứng dụng.
+Khi tích hợp API: Android Emulator dùng `http://10.0.2.2:3000`, điện thoại thật
+dùng IP LAN của máy chạy Backend hoặc URL triển khai. Backend cần lắng nghe trên
+địa chỉ phù hợp và được firewall cho phép. Hiện ứng dụng chưa có cấu hình API;
+bản phát hành dùng HTTPS.
 
-## Quy trình phát triển
+## Quy ước Git
 
-Dự án sử dụng **GitHub Flow**:
-
-1. Tạo GitHub Issue ghi nhận yêu cầu.
-2. Tạo branch riêng từ `main` (`feat/...`, `fix/...`, `docs/...`).
-3. Phát triển, kiểm thử, commit theo **Conventional Commits** với mô tả tiếng Việt.
-4. Tạo Pull Request, kiểm tra thay đổi và merge vào `main`.
-
-Chi tiết: [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Tài liệu
-
-- [Flutter Documentation](https://docs.flutter.dev/)
-- [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow)
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- Tạo nhánh từ `main`: `feat/...`, `fix/...`, `docs/...`, `chore/...`.
+- Commit theo Conventional Commits: `<type>(<scope>): <mô tả tiếng Việt>`;
+  scope tùy chọn. Ví dụ: `feat(recipe): Hiển thị danh sách công thức`.
+- Mỗi commit tập trung một thay đổi; mở PR về `main`, xem diff và kiểm tra phù hợp
+  trước khi merge. Với thay đổi mã Flutter, chạy analyze và test ở trên.
+- Issue dùng khi cần ghi nhớ công việc; không bắt buộc template hay Project.
+- Không commit mật khẩu, token, `.env`, khóa ký ứng dụng hoặc file build.
+  Giữ [pubspec.lock](pubspec.lock) để cố định dependency của ứng dụng.
