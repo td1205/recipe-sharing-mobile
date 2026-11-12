@@ -4,4 +4,6 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Local backend URLs are HTTP; release remains HTTPS-only. -->
+    <application android:usesCleartextTraffic="true"/>
 </manifest>
